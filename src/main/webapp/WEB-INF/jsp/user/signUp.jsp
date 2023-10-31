@@ -3,7 +3,7 @@
 <div class="d-flex justify-content-center">
 	<div class="sign-up-box">
 		<h1 class="m-4 font-weight-bold">회원가입</h1>
-		<form id="signUpForm" method="post" action="/user/sign_up">
+		<form id="signUpForm" method="post" action="/user/sign-up">
 			<span class="sign-up-subject">ID</span>
 			<%-- 인풋 옆에 중복확인 버튼을 옆에 붙이기 위해 div 만들고 d-flex --%>
 			<div class="d-flex ml-3 mt-3">

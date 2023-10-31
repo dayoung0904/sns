@@ -16,6 +16,11 @@ public class UserBO {
 	public UserEntity getUserEntityByLoginId(String loginId) {
 		return userRepository.findByLoginId(loginId);
 	}
+	
+	// input:loginId, password		output:UserEntity(null or entity)
+	public UserEntity getUserEntityByLoginIdPassword(String loginId, String password) {
+		return userRepository.findByLoginIdAndPassword(loginId, password);
+	}
 
 	public Integer addUser(String loginId, String password, String name, String email) {
 		// save
