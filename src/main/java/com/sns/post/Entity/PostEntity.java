@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.sns.user.Entity.UserEntity;
 
 import lombok.AllArgsConstructor;
@@ -37,8 +39,12 @@ public class PostEntity {
 	
 	private String content;
 	
+	@UpdateTimestamp
+	@Column(name = "createdAt", updatable = false)
 	private ZonedDateTime createdAt;
 	
+	@UpdateTimestamp
+	@Column(name = "updatedAt")
 	private ZonedDateTime updatedAt;
 	
 }
