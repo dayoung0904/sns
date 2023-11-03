@@ -59,7 +59,7 @@ $(document).ready(function() {
 			if(data.code == 200){
 				// 성공
 				// 글 목록으로 이동
-				location.href = "/timeline/list-view";
+				location.href = "/timeline/timeline-view";
 			} else{
 				// 로직 상 실패
 				alert(data.errorMessage);

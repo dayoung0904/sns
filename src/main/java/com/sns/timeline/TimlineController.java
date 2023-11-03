@@ -11,16 +11,14 @@ import com.sns.post.Entity.PostEntity;
 import com.sns.post.bo.PostBO;
 
 @Controller
-public class TimelineController {
+public class TimlineController {
 
 	@Autowired
 	private PostBO postBO;
 	
-	@GetMapping("/timeline/list-view")
+	@GetMapping("/timeline/timeline-view")
 	public String timelineView(Model model) {
-		
-		List<PostEntity> postList = postBO.getPost();
-		
+		List<PostEntity> postList = postBO.getPostList();
 		model.addAttribute("postList", postList);
 		model.addAttribute("viewName", "timeline/timeline");
 		return "template/layout";
