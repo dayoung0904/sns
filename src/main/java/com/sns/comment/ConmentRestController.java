@@ -26,13 +26,16 @@ public class ConmentRestController {
 			@RequestParam("postId") int postId,
 			HttpSession session){
 		
-		// 지금 작성하고 있는 사용자 userId가 필요함 => session
-		int userId = (int)session.getAttribute("userId");
-		
-		// DB 저장
-		commentBO.
-		// 결과값
 		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 500);
+			result.put("errorMessage", "로그인을 해주세요.");
+			return result;
+		}
+		// DB 저장
+		commentBO.addComment(postId, userId, content);
 		
 		result.put("code", 200);
 		result.put("result", "성공");

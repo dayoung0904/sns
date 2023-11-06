@@ -27,12 +27,12 @@
 		
 		<%-- 타임라인 영역 --%>
 		<div class="timeline-box my-5">
-			<c:forEach items="${postList}" var="post">
+			<c:forEach items="${cardList}" var="card">
 			<%-- 카드1 --%>
 			<div class="card border rounded mt-3">
 				<%-- 글쓴이, 더보기(삭제) --%>
 				<div class="p-2 d-flex justify-content-between">
-					<span class="font-weight-bold">${post.userId}</span>
+					<span class="font-weight-bold">${card.post.userId}</span>
 					
 					<a href="#" class="more-btn">
 						<img src="https://www.iconninja.com/files/860/824/939/more-icon.png" width="30">
@@ -41,7 +41,7 @@
 				
 				<%-- 카드 이미지 --%>
 				<div class="card-img">
-					<img src="${post.imagePath}" class="w-100" alt="본문 이미지">
+					<img src="${card.post.imagePath}" class="w-100" alt="본문 이미지">
 				</div>
 				
 				<%-- 좋아요 --%>
@@ -54,8 +54,8 @@
 				
 				<%-- 글 --%>
 				<div class="card-post m-3">
-					<span class="font-weight-bold">${post.userId}</span>
-					<span>${post.content}</span>
+					<span class="font-weight-bold">${card.user.loginId}</span>
+					<span>${card.post.content}</span>
 				</div>
 				
 				<%-- 댓글 제목 --%>
@@ -79,7 +79,7 @@
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2 comment-input" placeholder="댓글 달기"/> 
-						<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>
+						<button type="button" class="comment-btn btn btn-light" data-post-id="${card.post.id}">게시</button>
 					</div>
 				</div> <%--// 댓글 목록 끝 --%>
 			</div> <%--// 카드1 끝 --%>
@@ -169,23 +169,30 @@ $(document).ready(function() {
 	// 댓글 등록 버튼을 누르는 순간
 	$('.comment-btn').on('click', function(){
 		//alert("aaa");
-		var postId = $(this).data('post-id');
+		let postId = $(this).data('post-id'); // 객체에 심어둔 data
 		//alert(postId);
 		
-		let commentInput = $('.comment-input').val();
-		console.log(commentInput);
+		// 댓글 내용 가져오기
+		// 1) 버튼의 형제로 접근
+		//let content = $(this).siblings("input").val().trim();
+		
+		// 2) 
+		let content = $(this).prev().val().trim();
+		
+		//alert(content);
 		
 		$.ajax({
 			type: "post"
 			, url: "/comment/create"
-			, data: {"content":commentInput, "postId":postId}
+			, data: {"content":content, "postId":postId}
 		
 			// response
 			,success(data){
 				if(data.code == 200){
-					location.href = "/timeline/timeline-view";
-				} else{
-					alert("댓글 작성에 실패했습니다.");
+					location.reload(true);
+				} else if (data.code == 500){
+					alert(data.errorMessage);
+					location.href= "/user/sign-in-view"
 				}
 			}
 			, error:function(request, status, error){

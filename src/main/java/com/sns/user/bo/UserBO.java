@@ -12,6 +12,9 @@ public class UserBO {
 	@Autowired
 	private UserRepository userRepository;
 
+	public UserEntity getUserEntityById(int userId) {
+		return userRepository.findById(userId).orElse(null);
+	}
 	// input:loginId output:UserEntity(null or entity)
 	public UserEntity getUserEntityByLoginId(String loginId) {
 		return userRepository.findByLoginId(loginId);
