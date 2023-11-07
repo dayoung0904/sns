@@ -65,17 +65,18 @@
 				
 				<%-- 댓글 목록 --%>
 				<div class="card-comment-list m-2">
+					<c:forEach items="${card.commentList}" var="comment">
 					<%-- 댓글 내용들 --%>
 					<div class="card-comment m-1">
 						<span class="font-weight-bold">${card.user.name}</span>
-						<span>${card.commentList.comment.Comment.content}</span>
+						<span></span>
 						
 						<%-- 댓글 삭제 버튼 --%>
-						<a href="#" class="comment-del-btn">
+						<a href="#" class="comment-del-btn" data-comment-id="${comment.id}">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10" height="10">
 						</a>
 					</div>
-					
+					</c:forEach>
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2 comment-input" placeholder="댓글 달기"/> 
@@ -199,6 +200,30 @@ $(document).ready(function() {
 				alert("댓글 작성에 실패했습니다. 관리자에게 문의해주세요.");
 			}
 		});
+	});
+	// 댓글 삭제 기능
+	$('.comment-del-btn').on('click', function(e){
+		e.preventDefault(); // a태그 올라감 방지
+		//alert("ddd");
+		let commentId = $(this).data('comment-id');
+		
+		$.ajax({
+			type:"post"
+			, url:"/comment/delete"
+			, data: {"commentId":commentId}
+		
+			// response
+			, success(data){
+				if(data.code == 200){
+					location.reload(true);
+				} else if(data.code == 500){
+					alert(data.errorMessage);
+				}
+			}
+			, error function(request, statusm error){
+				alert("댓글 삭제에 실패했습니다. 관리자에게 문의해주세요.");
+			}
+		})
 	});
 });
 </script>
