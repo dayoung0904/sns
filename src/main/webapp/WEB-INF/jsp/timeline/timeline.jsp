@@ -46,10 +46,10 @@
 				
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
-					<a href="#" class="like-btn">
+					<a href="#" class="like-btn" data-post-id="${card.post.id}">
 						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="filled heart">
 					</a>
-					좋아요 11개
+					좋아요 <span>${card.likeCount}</span>개
 				</div>
 				
 				<%-- 글 --%>
@@ -65,16 +65,19 @@
 				
 				<%-- 댓글 목록 --%>
 				<div class="card-comment-list m-2">
-					<c:forEach items="${card.commentList}" var="comment">
+					<c:forEach items="${card.commentList}" var="commentView">
 					<%-- 댓글 내용들 --%>
 					<div class="card-comment m-1">
-						<span class="font-weight-bold">${card.user.name}</span>
-						<span>${comment.comment.content}</span>
+						<span class="font-weight-bold">${commentView.user.loginId}</span>
+						<span>${commentView.comment.content}</span>
 						
 						<%-- 댓글 삭제 버튼 --%>
-						<a href="#" class="comment-del-btn">
+						<%-- 로그인 된 사람과 댓글쓴이 일치 시 삭제 버튼 노출 --%>
+						<c:if test="${userId eq commentView.user.id}">
+						<a href="#" class="comment-del-btn" data-comment-id="${commentView.comment.id}">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10" height="10">
 						</a>
+						</c:if>
 					</div>
 					</c:forEach>
 					<%-- 댓글 쓰기 --%>
@@ -201,29 +204,62 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
 	// 댓글 삭제 기능
 	$('.comment-del-btn').on('click', function(e){
-		e.preventDefault(); // a태그 올라감 방지
+		e.preventDefault(); // a태그 위로 올라감 방지
 		//alert("ddd");
-		let commentId = $(this).data('comment-id');
+		let commentId = $(this).data("comment-id");
+		// alert(commentId);
 		
 		$.ajax({
-			type:"post"
+			// request
+			type:"DELETE"
 			, url:"/comment/delete"
-			, data: {"commentId":commentId}
+			, data:{"commentId":commentId}
 		
 			// response
 			, success(data){
 				if(data.code == 200){
 					location.reload(true);
-				} else if(data.code == 500){
+				} else {
 					alert(data.errorMessage);
 				}
 			}
-			, error function(request, statusm error){
+			, error:function(request, status, error){
 				alert("댓글 삭제에 실패했습니다. 관리자에게 문의해주세요.");
 			}
 		})
+	});
+	
+	// 좋아요 버튼
+	$('.like-btn').on('click', function(e){
+		//alert("lll");
+		e.preventDefault(); // a태그 올라감 방지
+		let postId = $(this).data('post-id');
+		//alert(postId);
+		
+		$.ajax({
+			// request
+			type:"get"
+			,url:"/like/" + postId
+			//,data:{"postId":postID} > get방식의 경우 해당 data는 쿼리스트링으로 붙음 따라서 지금은 필요 없음
+		
+			// response
+			, success(data){
+				if(data.code == 200){
+					location.reload(true); // 새로고침 => timeline 다시 -> 하트 채워지거나 or 비워지거나
+				} else if(data.code == 500) {
+					// 비로그인 상태
+					alert(data.errorMessage);
+					location.href="/user/sign-in-view";
+				}
+			}
+			, error:function(request, status, error){
+				alert("좋아요에 실패했습니다. 관리자에게 문의해주세요.");
+			}
+			
+		});
 	});
 });
 </script>

@@ -20,9 +20,12 @@ public class CardView {
 	
 	// 해당 글에 연결된 댓글들
 	private List<CommentView> commentList;
+	
 	// 좋아요 개수
+	private int likeCount;
 	
 	// 내가 좋아요를 눌렀는지 체크 여부
+	private boolean filledLike; // flase: 빈하트, true:채워진 하트
 	
-	//
 }
+
