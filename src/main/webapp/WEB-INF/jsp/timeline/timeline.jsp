@@ -69,10 +69,10 @@
 					<%-- 댓글 내용들 --%>
 					<div class="card-comment m-1">
 						<span class="font-weight-bold">${card.user.name}</span>
-						<span></span>
+						<span>${comment.comment.content}</span>
 						
 						<%-- 댓글 삭제 버튼 --%>
-						<a href="#" class="comment-del-btn" data-comment-id="${comment.id}">
+						<a href="#" class="comment-del-btn">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10" height="10">
 						</a>
 					</div>
