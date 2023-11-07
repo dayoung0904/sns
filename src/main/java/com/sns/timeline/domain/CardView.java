@@ -24,5 +24,5 @@ public class CardView {
 	
 	// 내가 좋아요를 눌렀는지 체크 여부
 	
-	// 
+	//
 }

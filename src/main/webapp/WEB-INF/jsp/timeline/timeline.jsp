@@ -67,8 +67,8 @@
 				<div class="card-comment-list m-2">
 					<%-- 댓글 내용들 --%>
 					<div class="card-comment m-1">
-						<span class="font-weight-bold">댓글쓴이</span>
-						<span>댓글 내용</span>
+						<span class="font-weight-bold">${card.user.name}</span>
+						<span>${card.commentList.comment.Comment.content}</span>
 						
 						<%-- 댓글 삭제 버튼 --%>
 						<a href="#" class="comment-del-btn">
