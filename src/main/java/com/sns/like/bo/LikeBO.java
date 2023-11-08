@@ -15,7 +15,7 @@ public class LikeBO {
 		// output: X
 		public void likeToggle(int postId, int userId) {
 			// 셀렉트 => count(*)
-			if (likeMapper.selectLikeCountByPostIdUserId(postId, userId) > 0) {
+			if (likeMapper.selectLikeCountByPostIdOrUserId(postId, userId) > 0) {
 				// 삭제
 				likeMapper.deleteLikeByPostIdUserId(postId, userId);
 			} else {
@@ -24,15 +24,20 @@ public class LikeBO {
 			}
 		}
 		
-		// input : 어느글에		output: 몇개
+		// input : 어느글에		output: 몇개(int)
 		public int findLikeByPostId(int postId) {
-			return likeMapper.selectLikeByPostId(postId);
+			return likeMapper.selectLikeCountByPostIdOrUserId(postId, null);
 		}
 		
-		// input : 어느글에 누가		output : boolean
-		public boolean findLikeByPostIdUserId(int postId, int userId) {
+		// input : 어느글에 누가		output : 채워진지 여부(boolean)
+		public boolean filledLike(int postId, Integer userId) {
+			// 비로그인
+			if(userId == null) {
+				return false;
+			}
 			
-			
-			return
+			// 로그인
+			// 0보다 큰 경우 있음(채운다 true) 그렇지 않으면 false(빈하트)
+			return likeMapper.selectLikeCountByPostIdOrUserId(postId, userId) > 0;
 		}
 }

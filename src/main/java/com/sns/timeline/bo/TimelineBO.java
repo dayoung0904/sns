@@ -30,7 +30,7 @@ public class TimelineBO {
 	@Autowired
 	private LikeBO likeBO;
 	
-	// input: X		output: List<CardView>
+	// input: userId(비로그인/로그인 허용 null도 허용)		output: List<CardView>
 	public List<CardView> generateCardViewList(Integer userId){
 		List<CardView> cardViewList = new ArrayList<>();
 		
@@ -59,9 +59,9 @@ public class TimelineBO {
 			cardView.setLikeCount(likeCount);
 			
 			// 내가 좋아요 눌렀는지 여부
-			if(userId != null) {
-				Boolean filledLike = likeBO.findLikeByPostIdUserId(post.getId(), (int)userId);
-			}
+			// false: 비로그인 혹은 누리지 않았을 때
+			boolean filledLike = likeBO.filledLike(post.getId(), userId);
+			cardView.setFilledLike(filledLike);
 			
 			// ★★★★★★ 마지막에 cardViewList에 꼭 넣어준다.
 			cardViewList.add(cardView);

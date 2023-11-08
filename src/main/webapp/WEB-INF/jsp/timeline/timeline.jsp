@@ -46,9 +46,18 @@
 				
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
+					<%-- 빈하트: 1) 비로그인 2) 좋아요를 누르지 않았을 때 && 로그인 --%>
+					<c:if test="${card.filledLike eq false}">
 					<a href="#" class="like-btn" data-post-id="${card.post.id}">
-						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="filled heart">
+						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="empty heart">
 					</a>
+					</c:if>
+					<%-- 채워진 하트: 로그인 && 좋아요 눌렀을 때 --%>
+					<c:if test="${card.filledLike eq true}">
+					<a href="#" class="like-btn" data-post-id="${card.post.id}">
+						<img src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18" height="18" alt="filled heart">
+					</a>
+					</c:if>
 					좋아요 <span>${card.likeCount}</span>개
 				</div>
 				
