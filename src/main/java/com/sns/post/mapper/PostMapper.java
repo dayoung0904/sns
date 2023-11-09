@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface PostMapper {
 	
 	public List<Map<String, Object>> selectPostList();
+	
+
 
 }

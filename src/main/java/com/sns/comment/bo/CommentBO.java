@@ -54,4 +54,9 @@ public class CommentBO {
 	public void deleteCommentById(int id) {
 		commentMapper.deleteCommentById(id);
 	}
+	
+	// input: 삭제할 글 번호	output:X
+	public void deleteCommentByPostId(int postId) {
+		commentMapper.deleteCommentByPostId(postId);
+	}
 }

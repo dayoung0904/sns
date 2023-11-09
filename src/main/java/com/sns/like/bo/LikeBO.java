@@ -40,4 +40,9 @@ public class LikeBO {
 			// 0보다 큰 경우 있음(채운다 true) 그렇지 않으면 false(빈하트)
 			return likeMapper.selectLikeCountByPostIdOrUserId(postId, userId) > 0;
 		}
+		
+		// input: 어느글에		output:X
+		public void deleteLikeByPostId(int postId) {
+			likeMapper.deleteLikeByPostIdUserId(postId, null);
+		}
 }

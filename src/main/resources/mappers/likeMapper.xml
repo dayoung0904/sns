@@ -70,10 +70,18 @@
 			`like`
 		WHERE
 			`postId` = #{postId}
+			<if test="userId != null">
 			AND `userId` = #{userId}
+			</if>
 	</delete>
 	
-	
+	<!-- <delete id="deleteLikeByPostId">
+		DELETE
+		FROM
+			`like`
+		WHERE
+			`postId` = #{postId}
+	</delete> -->
 	
 	
 </mapper>
